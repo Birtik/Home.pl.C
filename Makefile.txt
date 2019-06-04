@@ -1,0 +1,11 @@
+__start__: a.out
+	./a.out
+
+a.out: main.o functions.o
+	gcc	main.o functions.o
+
+main.o: main.c main.h
+	gcc -c -Wall -pedantic main.c
+
+functions.o: main.h functions.c
+	gcc -c -Wall -pedantic functions.c

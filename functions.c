@@ -12,16 +12,17 @@ void checkValid(char line[])
 
     for(int i=0;i<length;i++)
     {
-        if(('/'==line[i]) || ('*'==line[i]) || ('+'==line[i]) || ('-'==line[i]))
+        if(('/'==line[i]) || ('*'==line[i]) || ('+'==line[i]) || ('-'==line[i] && !isdigit(line[i+1])))
         {
             operators++;
         }
-        if( isdigit( line[i] ) )
+        if( isdigit( line[i] ) && (line[i+1]==' ' || line[i+1]=='\n'))
         {
             numbers++;
         }
     }
-    if((numbers-1!=operators))
+
+    if((operators<1) || numbers-1!=operators)
     {
         printf("Incorect input data!\n");
         exit(0);
@@ -36,12 +37,64 @@ void calculate(char *operations,int *position,char line[],int result)
     {
         if(!(isdigit(line[position[i]-2])) || !(isdigit(line[position[i]+2])) )
         {
-            printf("Incorect input data!\n");
-            exit(0);
+            if(line[position[i]+2]!='-')
+            {
+                printf("Incorect input data!\n");
+                exit(0);
+            }
         }
 
-        int jj = atoi(&line[position[i]-2]);
-        int kk = atoi(&line[position[i]+2]);
+        int jj;
+        int kk;
+
+        if(line[position[i]-3]!=' ' && isdigit(line[position[i]-3]))
+        {
+            char c[10] = " ";
+            char c2[10] = " ";
+            int k = 0;
+            while((line[position[i]-2-k]!=' ') && isdigit(line[position[i]-2-k]))
+            {
+                c[k] = line[position[i]-2-k];
+                k++;
+            }
+            if(line[position[i]-2-k]=='-')
+            {
+                c[k] = '-';
+                k++;
+            }
+
+            c[k] = '\0';
+
+            int j = 0;
+            for(int i=strlen(c)-1;i>=0;i--)
+            {
+                c2[j] = c[i];
+                j++;
+            }
+            c2[j] = '\0';
+
+            jj = atoi(&c2);
+            kk = atoi(&line[position[i]+2]);
+        }
+        else if(line[position[i]+3]!=' ' && isdigit(line[position[i]+3]))
+        {
+            char c[10] = " ";
+            int k = 0;
+            while((line[position[i]+2+k]!=' ') && (isdigit(line[position[i]+2+k]) || line[position[i]+2+k]=='-') )
+            {
+                c[k] = line[position[i]+2+k];
+                k++;
+            }
+            c[k] = '\0';
+            jj = atoi(&line[position[i]-2]);
+            kk = atoi(&c);
+        }
+        else
+        {
+            jj = atoi(&line[position[i]-2]);
+            kk = atoi(&line[position[i]+2]);
+        }
+
         double j = (double) jj;
         double k = (double) kk;
 
@@ -105,10 +158,6 @@ void calculate(char *operations,int *position,char line[],int result)
                 }
             }
         }
-        else
-        {
-            printf("INVALID OPERATION!!!");
-        }
     }
 
     wynik[result] = suma;
@@ -152,10 +201,8 @@ void explore(int *positions_of_oper, char *operations,int result)
         int j = 0;
         for(int i=0;i<strlen(line);i++){
 
-            char t[1];
-            t[0] = line[i];
 
-            if(('+'==t[0]) || ('-'==t[0]) ||  ('*'==t[0]) || ('/'==t[0]))
+            if(('+'==line[i]) || ('-'==line[i] && !(isdigit(line[i+1]))) ||  ('*'==line[i]) || ('/'==line[i]))
             {
                 operation[j] = line[i];
                 positions_of_oper[j] = i;

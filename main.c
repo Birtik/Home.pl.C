@@ -9,6 +9,11 @@ int main()
     char *operations;
     scanf("%d",&c);
 
+    if(c<1)
+    {
+        printf("Incorrect input data!");
+        exit(0);
+    }
     wynik = (double*) malloc (sizeof(double)*c);
 
     for(int i=0;i<=c;i++)

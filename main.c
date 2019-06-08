@@ -1,12 +1,11 @@
 #include <main.h>
+#include <string.h>
 
 double *wynik;
 
 int main()
 {
     int c;
-    int *positions_of_oper;
-    char *operations;
     scanf("%d",&c);
 
     if(c<1)
@@ -18,7 +17,7 @@ int main()
 
     for(int i=0;i<=c;i++)
     {
-        explore(positions_of_oper,operations,i);
+        explore(i);
     }
     showResults(c);
 

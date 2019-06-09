@@ -23,13 +23,13 @@ void checkValid(char line[]){
 
         if(isalpha(line[i]))
         {
-            printf("Incorect input data!\n");
+            printf("Incorrect input data!\n");
             exit(0);
         }
     }
     if((operators<1) || numbers-1!=operators)
     {
-        printf("Incorect input data!\n");
+        printf("Incorrect input data!\n");
         exit(0);
     }
 }
@@ -54,12 +54,12 @@ void calculate(char line[],int result){
         int lB = 0;
         int rB = 0;
 
-        if((line[i]=='/' || line[i]=='*' || line[i]=='+' || line[i]=='-') && (line[i-1]==' ') && (line[i+1]==' ') )
+        if((line[i]=='/' || line[i]=='*' || line[i]=='+' || (line[i]=='-' && !isdigit(line[i+1]) )))
         {
-            if(!(isdigit(line[i-2])) || !(isdigit(line[i+2])) ){
+            if(!(isdigit(line[i-2])) || !(isdigit(line[i+2])) || line[i-1] !=' ' || line[i+1] !=' '){
                 if(line[i+2]!='-')
                 {
-                    printf("Incorect input data\n");
+                    printf("Incorrect input data\n");
                     exit(0);
                 }
             }
@@ -87,7 +87,7 @@ void calculate(char line[],int result){
                 {
                     if(line[i-2-k]!='.' && line[i-2-k]!='-' && !(isdigit(line[i-2-k])) )
                     {
-                        printf("Incorect input data!\n");
+                        printf("Incorrect input data!\n");
                         exit(0);
                     }
                     l[k] = line[i-2-k];
@@ -123,7 +123,7 @@ void calculate(char line[],int result){
 
                     if(g[u-1]=='.')
                     {
-                        printf("Incorect input data!\n");
+                        printf("Incorrect input data!\n");
                         exit(0);
                     }
 
@@ -134,7 +134,7 @@ void calculate(char line[],int result){
             {
                 if(l[k-1]=='.')
                 {
-                    printf("Incorect input data!\n");
+                    printf("Incorrect input data!\n");
                     exit(0);
                 }
                 if(leftFloat) leftValue = atof(&l);
@@ -147,7 +147,7 @@ void calculate(char line[],int result){
             {
                 if(line[i+2+k]!='.' && line[i+2+k]!='-' && !(isdigit(line[i+2+k])) )
                 {
-                    printf("Incorect input data!\n");
+                    printf("Incorrect input data!\n");
                     exit(0);
                 }
 
@@ -160,10 +160,15 @@ void calculate(char line[],int result){
                 }
                 k++;
             }
+            if(line[i+2+k]!='\n' && (line[i+2+k+1]!='-' && line[i+2+k+1]!='*' && line[i+2+k+1]!='/' && line[i+2+k+1]!='+' && line[i+2+k+1]!='+'))
+            {
+                printf("Incorrect input data!\n");
+                exit(0);
+            }
 
             if(dd>1)
             {
-                printf("Incorect input data!\n");
+                printf("Incorrect input data!\n");
                 exit(0);
             }
 
@@ -173,7 +178,7 @@ void calculate(char line[],int result){
 
             if(r[k-1]=='.')
             {
-                printf("Incorect input data!\n");
+                printf("Incorrect input data!\n");
                 exit(0);
             }
 
@@ -257,13 +262,12 @@ void showResults(int line)
 
         if(wynik[i] == truncated)
         {
-            printf("%d\n",truncated);
+            printf("\n%d",truncated);
         }
         else
         {
-            printf("%.1f\n",wynik[i]);
+            printf("\n%.1f",wynik[i]);
         }
     }
     free(wynik);
 }
-

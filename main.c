@@ -5,21 +5,24 @@ double *wynik;
 
 int main()
 {
-    int c;
-    scanf("%d",&c);
+    int num;
+    char term;
 
-    if(c<1)
+    scanf("%d", &num);
+
+    if(num<1)
     {
         printf("Incorrect input data!");
         exit(0);
     }
-    wynik = (double*) malloc (sizeof(double)*c);
+    wynik = (double*) malloc (sizeof(double)*num);
 
-    for(int i=0;i<=c;i++)
+    for(int i=0;i<=num;i++)
     {
         explore(i);
     }
-    showResults(c);
+
+    showResults(num);
 
     return 0;
 }
